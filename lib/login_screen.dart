@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:appdev_no7/main.dart'; // Assuming you are using MainScaffold in the project
+import 'register_screen.dart'; // Import the register screen
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -16,73 +17,78 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         title: Text('MyVocab'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Move image a little bit up
-            Transform.translate(
-              offset: Offset(0, -20), // Move the image 20 pixels up
-              child: Image.asset(
-                'assets/icon/MyVocab.png',
-                height: 200,
-                width: 200,
+      body: SingleChildScrollView(
+        // Wrap the body with SingleChildScrollView
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Move image a little bit up
+              Transform.translate(
+                offset: Offset(0, -20), // Move the image 20 pixels up
+                child: Image.asset(
+                  'assets/icon/MyVocab.png',
+                  height: 200,
+                  width: 200,
+                ),
               ),
-            ),
 
-            SizedBox(height: 20),
+              SizedBox(height: 20),
 
-            // Username TextField
-            TextField(
-              controller: _usernameController,
-              decoration: InputDecoration(
-                labelText: 'Username',
+              // Username TextField
+              TextField(
+                controller: _usernameController,
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                ),
               ),
-            ),
 
-            // Password TextField
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
+              // Password TextField
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                ),
+                obscureText: true,
               ),
-              obscureText: true,
-            ),
 
-            SizedBox(height: 20),
+              SizedBox(height: 20),
 
-            ElevatedButton(
-              onPressed: () {
-                String username = _usernameController.text;
-                String password = _passwordController.text;
+              ElevatedButton(
+                onPressed: () {
+                  String username = _usernameController.text;
+                  String password = _passwordController.text;
 
-                // Validate login credentials
-                if (username == 'user' && password == 'pass') {
-                  Navigator.pushReplacement(
+                  // Validate login credentials
+                  if (username == 'user' && password == 'pass') {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainScaffold()),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Invalid username or password')),
+                    );
+                  }
+                },
+                child: Text('Login'),
+              ),
+
+              SizedBox(height: 20),
+
+              TextButton(
+                onPressed: () {
+                  // Navigate to the RegisterScreen when the TextButton is pressed
+                  Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MainScaffold()),
+                    MaterialPageRoute(builder: (context) => RegisterScreen()),
                   );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Invalid username or password')),
-                  );
-                }
-              },
-              child: Text('Login'),
-            ),
-
-            SizedBox(height: 20),
-
-            TextButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Navigate to Register Screen.')),
-                );
-              },
-              child: Text('Don\'t have an account? Register here.'),
-            ),
-          ],
+                },
+                child: Text('Don\'t have an account? Register here.'),
+              ),
+            ],
+          ),
         ),
       ),
     );
